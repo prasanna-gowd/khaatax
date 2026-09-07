@@ -1,0 +1,30 @@
+databases:
+  - name: khaatax-db
+    plan: free
+    databaseName: khaatax
+    user: khaatax_user
+
+services:
+  - type: web
+    name: khaatax-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: "./build.sh"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: khaatax-db
+          property: connectionURI
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "43200"
+      - key: FRONTEND_URL
+        value: "https://khaatax.vercel.app"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+    healthCheckPath: /health
