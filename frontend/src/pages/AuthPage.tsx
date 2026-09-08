@@ -52,7 +52,7 @@ export const AuthPage: React.FC = () => {
       }
     } catch (err: any) {
       if (!err.response) {
-        setErrorMsg('Unable to connect to backend server. Please verify the backend API is running on http://localhost:8000.');
+        setErrorMsg('Unable to connect to backend server. Please wait 30-60 seconds (free tier may be waking up) and try again.');
       } else {
         setErrorMsg(err.response?.data?.detail || 'Authentication failed. Please check your inputs.');
       }
